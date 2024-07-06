@@ -40,5 +40,5 @@ class ArgumentConfig(PrintableConfig):
 
     ########## gradio arguments ##########
     server_port: Annotated[int, tyro.conf.arg(aliases=["-p"])]  = 7860
-    share: bool = True
+    share: bool = False
     server_name: str = "127.0.0.1"
