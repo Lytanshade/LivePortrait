@@ -35,15 +35,15 @@ title_md = "assets/gradio_title.md"
 example_portrait_dir = "assets/examples/source"
 example_video_dir = "assets/examples/driving"
 data_examples = [
-    [osp.join(example_portrait_dir, "s9.jpg"), osp.join(example_video_dir, "d0.mp4"), True, True, True, True],
-    [osp.join(example_portrait_dir, "s6.jpg"), osp.join(example_video_dir, "d1.mp4"), True, True, True, True],
-    [osp.join(example_portrait_dir, "s10.jpg"), osp.join(example_video_dir, "d5.mp4"), True, True, True, True],
-    [osp.join(example_portrait_dir, "s5.jpg"), osp.join(example_video_dir, "d6.mp4"), True, True, True, True],
     [osp.join(example_portrait_dir, "s7.jpg"), osp.join(example_video_dir, "d7.mp4"), True, True, True, True],
-    [osp.join(example_portrait_dir, "s6.jpg"), osp.join(example_video_dir, "d2.mp4"), True, True, True, True],
-    [osp.join(example_portrait_dir, "s10.jpg"), osp.join(example_video_dir, "d3.mp4"), True, True, True, True],
-    [osp.join(example_portrait_dir, "s5.jpg"), osp.join(example_video_dir, "d8.mp4"), True, True, True, True],
-    [osp.join(example_portrait_dir, "s7.jpg"), osp.join(example_video_dir, "d9.mp4"), True, True, True, True],
+    [osp.join(example_portrait_dir, "s6.jpg"), osp.join(example_video_dir, "d3.mp4"), True, True, True, True],
+    [osp.join(example_portrait_dir, "s5.jpg"), osp.join(example_video_dir, "d6.mp4"), True, True, True, True],
+    [osp.join(example_portrait_dir, "s4.jpg"), osp.join(example_video_dir, "d9.mp4"), True, True, True, True],
+    [osp.join(example_portrait_dir, "s9.jpg"), osp.join(example_video_dir, "d8.mp4"), True, True, True, True],
+    [osp.join(example_portrait_dir, "s3.jpg"), osp.join(example_video_dir, "d5.mp4"), True, True, True, True],
+    [osp.join(example_portrait_dir, "s6.jpg"), osp.join(example_video_dir, "d0.mp4"), True, True, True, True],
+    [osp.join(example_portrait_dir, "s2.jpg"), osp.join(example_video_dir, "d1.mp4"), True, True, True, True],
+    [osp.join(example_portrait_dir, "s10.jpg"), osp.join(example_video_dir, "d2.mp4"), True, True, True, True],
 ]
 #################### interface logic ####################
 
