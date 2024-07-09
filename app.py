@@ -35,15 +35,15 @@ title_md = "assets/gradio_title.md"
 example_portrait_dir = "assets/examples/source"
 example_video_dir = "assets/examples/driving"
 data_examples = [
-    [osp.join(example_portrait_dir, "s7.jpg"), osp.join(example_video_dir, "d7.mp4"), True, True, True, True],
-    [osp.join(example_portrait_dir, "s6.jpg"), osp.join(example_video_dir, "d3.mp4"), True, True, True, True],
-    [osp.join(example_portrait_dir, "s5.jpg"), osp.join(example_video_dir, "d6.mp4"), True, True, True, True],
+    [osp.join(example_portrait_dir, "AI_girl1.png"), osp.join(example_video_dir, "d7.mp4"), True, True, True, False],
+    [osp.join(example_portrait_dir, "AI_guy1.png"), osp.join(example_video_dir, "d8.mp4"), True, True, True, True],
+    [osp.join(example_portrait_dir, "s7.jpg"), osp.join(example_video_dir, "d6.mp4"), True, True, True, True],
     [osp.join(example_portrait_dir, "s4.jpg"), osp.join(example_video_dir, "d9.mp4"), True, True, True, True],
     [osp.join(example_portrait_dir, "s9.jpg"), osp.join(example_video_dir, "d8.mp4"), True, True, True, True],
     [osp.join(example_portrait_dir, "s3.jpg"), osp.join(example_video_dir, "d5.mp4"), True, True, True, True],
-    [osp.join(example_portrait_dir, "s6.jpg"), osp.join(example_video_dir, "d0.mp4"), True, True, True, True],
+    [osp.join(example_portrait_dir, "s6.jpg"), osp.join(example_video_dir, "sideye2.mp4"), True, True, True, True],
     [osp.join(example_portrait_dir, "s2.jpg"), osp.join(example_video_dir, "d1.mp4"), True, True, True, True],
-    [osp.join(example_portrait_dir, "s10.jpg"), osp.join(example_video_dir, "d2.mp4"), True, True, True, True],
+    [osp.join(example_portrait_dir, "s10.jpg"), osp.join(example_video_dir, "blinkx2.mp4"), True, True, True, True],
 ]
 #################### interface logic ####################
 
@@ -71,6 +71,7 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
                 flag_relative_input = gr.Checkbox(value=True, label="relative motion")
                 flag_do_crop_input = gr.Checkbox(value=True, label="do crop")
                 flag_remap_input = gr.Checkbox(value=True, label="paste-back")
+                flag_lip_zero = gr.Checkbox(value=True, label="Lip-zero")      
     with gr.Row():
         with gr.Column():
             process_button_animation = gr.Button("🚀 Animate", variant="primary")
@@ -94,7 +95,8 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
                 video_input,
                 flag_relative_input,
                 flag_do_crop_input,
-                flag_remap_input
+                flag_remap_input,
+                flag_lip_zero
             ],
             examples_per_page=9
         )
@@ -138,7 +140,8 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
             video_input,
             flag_relative_input,
             flag_do_crop_input,
-            flag_remap_input
+            flag_remap_input,
+            flag_lip_zero
         ],
         outputs=[output_video, output_video_concat],
         show_progress=True
