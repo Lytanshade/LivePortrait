@@ -103,6 +103,7 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
                 flag_do_crop_input = gr.Checkbox(value=True, label="do crop (source)")
                 flag_remap_input = gr.Checkbox(value=True, label="paste-back")
                 flag_crop_driving_video_input = gr.Checkbox(value=False, label="do crop (driving video)")
+                flag_lip_zero = gr.Checkbox(value=True, label="Lip-zero")      
     with gr.Row():
         with gr.Column():
             process_button_animation = gr.Button("🚀 Animate", variant="primary")
@@ -128,7 +129,8 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
                 flag_relative_input,
                 flag_do_crop_input,
                 flag_remap_input,
-                flag_crop_driving_video_input
+                flag_crop_driving_video_input,
+                flag_lip_zero
             ],
             outputs=[output_image, output_image_paste_back],
             examples_per_page=len(data_examples),
@@ -150,22 +152,22 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
             ],
             value="🧹 Clear"
         )
-    with gr.Row(visible=True):
+    with gr.Row():
         with gr.Column():
             with gr.Accordion(open=True, label="Retargeting Input"):
                 retargeting_input_image.render()
-                gr.Examples(
-                    examples=[
-                        [osp.join(example_portrait_dir, "s9.jpg")],
-                        [osp.join(example_portrait_dir, "s6.jpg")],
-                        [osp.join(example_portrait_dir, "s10.jpg")],
-                        [osp.join(example_portrait_dir, "s5.jpg")],
-                        [osp.join(example_portrait_dir, "s7.jpg")],
-                        [osp.join(example_portrait_dir, "s12.jpg")],
-                    ],
-                    inputs=[retargeting_input_image],
-                    cache_examples=False,
-                )
+#                gr.Examples(
+#                    examples=[
+#                        [osp.join(example_portrait_dir, "s9.jpg")],
+#                        [osp.join(example_portrait_dir, "s6.jpg")],
+#                        [osp.join(example_portrait_dir, "s10.jpg")],
+#                        [osp.join(example_portrait_dir, "s5.jpg")],
+#                        [osp.join(example_portrait_dir, "s7.jpg")],
+#                        [osp.join(example_portrait_dir, "s12.jpg")],
+#                    ],
+#                inputs=[retargeting_input_image],
+#                cache_examples=False,
+#                )
         with gr.Column():
             with gr.Accordion(open=True, label="Retargeting Result"):
                 output_image.render()
@@ -188,7 +190,8 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
             flag_relative_input,
             flag_do_crop_input,
             flag_remap_input,
-            flag_crop_driving_video_input
+            flag_crop_driving_video_input,
+            flag_lip_zero
         ],
         outputs=[output_video, output_video_concat],
         show_progress=True
