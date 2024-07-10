@@ -41,6 +41,6 @@ class ArgumentConfig(PrintableConfig):
     vy_ratio_crop_video: float = -0.1  # adjust x offset
 
     ########## gradio arguments ##########
-    server_port: Annotated[int, tyro.conf.arg(aliases=["-p"])]  = 8890 # port for gradio server
+    server_port: Annotated[int, tyro.conf.arg(aliases=["-p"])]  = 7860 # port for gradio server
     share: bool = False # whether to share the server to public
-    server_name: str = "0.0.0.0" # server name
+    server_name: str = "127.0.0.1" # server name
