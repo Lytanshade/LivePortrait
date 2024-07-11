@@ -70,6 +70,12 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
     with gr.Row():
         with gr.Accordion(open=True, label="Source Portrait"):
             image_input = gr.Image(type="filepath")
+            
+        with gr.Accordion(open=True, label="Driving Video"):
+            video_input = gr.Video()
+            
+    with gr.Row():
+        with gr.Accordion(open=False, label="Image Examples"):            
             gr.Examples(
                 examples=[
                     [osp.join(example_portrait_dir, "s9.jpg")],
@@ -82,8 +88,8 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
                 inputs=[image_input],
                 cache_examples=False,
             )
-        with gr.Accordion(open=True, label="Driving Video"):
-            video_input = gr.Video()
+            
+        with gr.Accordion(open=False, label="Driving Examples"):
             gr.Examples(
                 examples=[
                     [osp.join(example_video_dir, "d0.mp4")],
@@ -96,14 +102,19 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
                 cache_examples=False,
             )
     with gr.Row():
-        with gr.Accordion(open=False, label="Animation Instructions and Options"):
+        with gr.Accordion(open=False, label="Animation Instructions"):
             gr.Markdown(load_description("assets/gradio_description_animation.md"))
+            
+    with gr.Row():
+        with gr.Accordion(open=True, label="Options"):
             with gr.Row():
                 flag_relative_input = gr.Checkbox(value=True, label="relative motion")
                 flag_do_crop_input = gr.Checkbox(value=True, label="do crop (source)")
                 flag_remap_input = gr.Checkbox(value=True, label="paste-back")
                 flag_crop_driving_video_input = gr.Checkbox(value=False, label="do crop (driving video)")
                 flag_lip_zero = gr.Checkbox(value=True, label="Lip-zero")      
+                
+            
     with gr.Row():
         with gr.Column():
             process_button_animation = gr.Button("🚀 Animate", variant="primary")
@@ -118,19 +129,19 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
                 output_video_concat.render()
     with gr.Row():
         # Examples
-        gr.Markdown("## You could also choose the examples below by one click ⬇️")
-    with gr.Row():
-        gr.Examples(
-            examples=data_examples,
-            fn=gpu_wrapped_execute_video,
-            inputs=[
-                image_input,
-                video_input,
-                flag_relative_input,
-                flag_do_crop_input,
-                flag_remap_input,
-                flag_crop_driving_video_input,
-                flag_lip_zero
+        with gr.Accordion(open=False, label="Preset Examples"):
+            with gr.Row():
+                gr.Examples(
+                examples=data_examples,
+                fn=gpu_wrapped_execute_video,
+                inputs=[
+                    image_input,
+                    video_input,
+                    flag_relative_input,
+                    flag_do_crop_input,
+                    flag_remap_input,
+                    flag_crop_driving_video_input,
+                    flag_lip_zero
             ],
             outputs=[output_image, output_image_paste_back],
             examples_per_page=len(data_examples),
@@ -196,6 +207,7 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
         outputs=[output_video, output_video_concat],
         show_progress=True
     )
+
 
 
 demo.launch(
