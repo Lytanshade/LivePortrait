@@ -80,12 +80,16 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
         with gr.Accordion(open=False, label="Image Examples"):            
             gr.Examples(
                 examples=[
+                    [osp.join(example_portrait_dir, "AI_girl1.png")],
+                    [osp.join(example_portrait_dir, "AI_girl2.png")],
+                    [osp.join(example_portrait_dir, "AI_girl3.png")],
+                    [osp.join(example_portrait_dir, "AI_guy1.png")],
+                    [osp.join(example_portrait_dir, "AI_guy2.png")],
+                    [osp.join(example_portrait_dir, "s7.jpg")],
                     [osp.join(example_portrait_dir, "s9.jpg")],
-                    [osp.join(example_portrait_dir, "s6.jpg")],
                     [osp.join(example_portrait_dir, "s10.jpg")],
                     [osp.join(example_portrait_dir, "s5.jpg")],
-                    [osp.join(example_portrait_dir, "s7.jpg")],
-                    [osp.join(example_portrait_dir, "s12.jpg")],
+                    [osp.join(example_portrait_dir, "s6.jpg")],
                 ],
                 inputs=[image_input],
                 cache_examples=False,
@@ -94,11 +98,20 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
         with gr.Accordion(open=False, label="Driving Examples"):
             gr.Examples(
                 examples=[
-                    [osp.join(example_video_dir, "d0.mp4")],
+                    [osp.join(example_video_dir, "d7.mp4")],
+                    [osp.join(example_video_dir, "d6.mp4")],
+                    [osp.join(example_video_dir, "d3.mp4")],
+                    [osp.join(example_video_dir, "d12.mp4")],
                     [osp.join(example_video_dir, "d18.mp4")],
                     [osp.join(example_video_dir, "d19.mp4")],
+                    [osp.join(example_video_dir, "smile1.mp4")],
+                    [osp.join(example_video_dir, "d0.mp4")],
+                    [osp.join(example_video_dir, "d10.mp4")],
+                    [osp.join(example_video_dir, "d11.mp4")],
+                    [osp.join(example_video_dir, "d5.mp4")],
+                    [osp.join(example_video_dir, "d9.mp4")],
                     [osp.join(example_video_dir, "d14.mp4")],
-                    [osp.join(example_video_dir, "d6.mp4")],
+                    [osp.join(example_video_dir, "d8.mp4")],
                 ],
                 inputs=[video_input],
                 cache_examples=False,
