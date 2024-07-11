@@ -32,6 +32,8 @@ gradio_pipeline = GradioPipeline(
     args=args
 )
 
+def copy_image(img):
+    return img
 
 def gpu_wrapped_execute_video(*args, **kwargs):
     return gradio_pipeline.execute_video(*args, **kwargs)
@@ -207,7 +209,11 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
         outputs=[output_video, output_video_concat],
         show_progress=True
     )
-
+    image_input.change(
+        fn=copy_image,
+        inputs=image_input,
+        outputs=retargeting_input_image
+    )
 
 
 demo.launch(
