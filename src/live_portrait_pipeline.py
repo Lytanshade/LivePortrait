@@ -30,6 +30,10 @@ from .live_portrait_wrapper import LivePortraitWrapper
 
 def make_abs_path(fn):
     return osp.join(osp.dirname(osp.realpath(__file__)), fn)
+    
+#Get up to the first 5 characters of the source image filename for save prefix   
+def get_source_prefix(source_image):
+    return basename(source_image).split('.')[0][:5].ljust(5, '_')    
 
 
 class LivePortraitPipeline(object):
@@ -217,24 +221,26 @@ class LivePortraitPipeline(object):
         wfp_concat = None
         # Generate a timestamp
         timestamp = datetime.now().strftime("%y%m%d_%H%M_%S")
+        source_prefix = get_source_prefix(args.source_image)
+        
         
         flag_has_audio = (not flag_load_from_template) and has_audio_stream(args.driving_info)
 
         ######### build final concact result #########
         # driving frame | source image | generation, or source image | generation
         frames_concatenated = concat_frames(driving_rgb_crop_256x256_lst, img_crop_256x256, I_p_lst)
-        wfp_concat = osp.join(args.output_dir, f'{basename(args.source_image)}--{timestamp}_concat.mp4')
+        wfp_concat = osp.join(args.output_dir, f'{source_prefix}-{timestamp}_concat.mp4')
         images2video(frames_concatenated, wfp=wfp_concat, fps=output_fps)
 
         if flag_has_audio:
             # final result with concact
-            wfp_concat_with_audio = osp.join(args.output_dir, f'{basename(args.source_image)}--{timestamp}_concat_with_audio.mp4')
+            wfp_concat_with_audio = osp.join(args.output_dir, f'{source_prefix}-{timestamp}_concat_with_audio.mp4')
             add_audio_to_video(wfp_concat, args.driving_info, wfp_concat_with_audio)
             os.replace(wfp_concat_with_audio, wfp_concat)
             log(f"Replace {wfp_concat} with {wfp_concat_with_audio}")
 
         # save drived result
-        wfp = osp.join(args.output_dir, f'{basename(args.source_image)}--{timestamp}.mp4')
+        wfp = osp.join(args.output_dir, f'{source_prefix}-{timestamp}.mp4')
         if I_p_pstbk_lst is not None and len(I_p_pstbk_lst) > 0:
             images2video(I_p_pstbk_lst, wfp=wfp, fps=output_fps)
         else:
@@ -242,7 +248,7 @@ class LivePortraitPipeline(object):
 
         ######### build final result #########
         if flag_has_audio:
-            wfp_with_audio = osp.join(args.output_dir, f'{basename(args.source_image)}--{timestamp}_with_audio.mp4')
+            wfp_with_audio = osp.join(args.output_dir, f'{source_prefix}-{timestamp}_with_audio.mp4')
             add_audio_to_video(wfp, args.driving_info, wfp_with_audio)
             os.replace(wfp_with_audio, wfp)
             log(f"Replace {wfp} with {wfp_with_audio}")

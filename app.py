@@ -7,6 +7,9 @@ The entrance of the gradio
 import tyro
 import gradio as gr
 import os.path as osp
+import webbrowser
+import os
+
 from src.utils.helper import load_description
 from src.gradio_pipeline import GradioPipeline
 from src.config.crop_config import CropConfig
@@ -17,7 +20,11 @@ from src.config.inference_config import InferenceConfig
 def partial_fields(target_class, kwargs):
     return target_class(**{k: v for k, v in kwargs.items() if hasattr(target_class, k)})
 
-
+#save folder button for maximum cross-platform compatibility
+def open_output_folder():
+    folder_path = os.path.normpath(os.path.realpath(args.output_dir))
+    webbrowser.open(f'file://{folder_path}')
+    
 # set tyro theme
 tyro.extras.set_accent_color("bright_cyan")
 args = tyro.cli(ArgumentConfig)
@@ -32,12 +39,12 @@ gradio_pipeline = GradioPipeline(
     args=args
 )
 
+#define img to copy to retargeting_input
 def copy_image(img):
     return img
-
+    
 def gpu_wrapped_execute_video(*args, **kwargs):
     return gradio_pipeline.execute_video(*args, **kwargs)
-
 
 def gpu_wrapped_execute_image(*args, **kwargs):
     return gradio_pipeline.execute_image(*args, **kwargs)
@@ -123,10 +130,14 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
         with gr.Accordion(open=True, label="Options"):
             with gr.Row():
                 flag_relative_input = gr.Checkbox(value=True, label="relative motion")
-                flag_do_crop_input = gr.Checkbox(value=True, label="do crop (source)")
+                flag_do_crop_input = gr.Checkbox(value=True, label="crop (source)")
                 flag_remap_input = gr.Checkbox(value=True, label="paste-back")
-                flag_crop_driving_video_input = gr.Checkbox(value=False, label="do crop (driving video)")
-                flag_lip_zero = gr.Checkbox(value=True, label="Lip-zero")      
+                flag_crop_driving_video_input = gr.Checkbox(value=False, label="crop (driving video)")
+                flag_lip_zero = gr.Checkbox(value=True, label="lip-zero")    
+                flag_stitching =  gr.Checkbox(value=True, label="stitching(?)")        
+                open_folder_button = gr.Button("📁 output folder", variant="primary", size="sm")
+
+            open_folder_button.click(fn=open_output_folder)
                 
             
     with gr.Row():
@@ -155,7 +166,8 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
                     flag_do_crop_input,
                     flag_remap_input,
                     flag_crop_driving_video_input,
-                    flag_lip_zero
+                    flag_lip_zero,
+                    flag_stitching
             ],
             outputs=[output_image, output_image_paste_back],
             examples_per_page=len(data_examples),
@@ -216,7 +228,8 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
             flag_do_crop_input,
             flag_remap_input,
             flag_crop_driving_video_input,
-            flag_lip_zero
+            flag_lip_zero,
+            flag_stitching
         ],
         outputs=[output_video, output_video_concat],
         show_progress=True
