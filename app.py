@@ -82,7 +82,6 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
                 examples=[
                     [osp.join(example_portrait_dir, "AI_girl1.png")],
                     [osp.join(example_portrait_dir, "AI_girl2.png")],
-                    [osp.join(example_portrait_dir, "AI_girl3.png")],
                     [osp.join(example_portrait_dir, "AI_guy1.png")],
                     [osp.join(example_portrait_dir, "AI_guy2.png")],
                     [osp.join(example_portrait_dir, "s7.jpg")],
