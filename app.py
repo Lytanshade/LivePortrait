@@ -107,7 +107,6 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
                     [osp.join(example_video_dir, "smile1.mp4")],
                     [osp.join(example_video_dir, "d0.mp4")],
                     [osp.join(example_video_dir, "d10.mp4")],
-                    [osp.join(example_video_dir, "d11.mp4")],
                     [osp.join(example_video_dir, "d5.mp4")],
                     [osp.join(example_video_dir, "d9.mp4")],
                     [osp.join(example_video_dir, "d14.mp4")],
