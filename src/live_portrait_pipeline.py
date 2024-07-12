@@ -255,7 +255,7 @@ class LivePortraitPipeline(object):
 
         # final log
         if wfp_template not in (None, ''):
-            log(f'Animated template: {wfp_template}, you can specify `-d` argument with this template path next time to avoid cropping video, motion making and protecting privacy.', style='bold green')
+            log(f'Animated template: {wfp_template}, you can specify `-d` argument with this template path next time to use the driving template instead of the driving video (not yet enabled via UI). ', style='bold green')
         log(f'Animated video: {wfp}')
         log(f'Animated video with concact: {wfp_concat}')
 
