@@ -5,6 +5,7 @@ The entrance of the gradio
 """
 
 import tyro
+import subprocess
 import gradio as gr
 import os.path as osp
 import webbrowser
@@ -17,17 +18,25 @@ from src.config.argument_config import ArgumentConfig
 from src.config.inference_config import InferenceConfig
 
 
-
 def partial_fields(target_class, kwargs):
     return target_class(**{k: v for k, v in kwargs.items() if hasattr(target_class, k)})
 
-   
+
+def fast_check_ffmpeg():
+    try:
+        subprocess.run(["ffmpeg", "-version"], capture_output=True, check=True)
+        return True
+    except:
+        return False
+
 # set tyro theme
 tyro.extras.set_accent_color("bright_cyan")
 args = tyro.cli(ArgumentConfig)
 
-# Ensure output directory exists for open folder
-mkdir(args.output_dir)
+if not fast_check_ffmpeg():
+    raise ImportError(
+        "FFmpeg is not installed. Please install FFmpeg before running this script. https://ffmpeg.org/download.html"
+    )
 
 # specify configs for inference
 inference_cfg = partial_fields(InferenceConfig, args.__dict__)  # use attribute of args to initial InferenceConfig
@@ -39,13 +48,15 @@ gradio_pipeline = GradioPipeline(
     args=args
 )
 
+# Ensure output directory exists for open folder
+mkdir(args.output_dir)
+
 #save folder button for maximum cross-platform compatibility
 def open_output_folder():
     folder_path = os.path.normpath(os.path.realpath(args.output_dir))
     mkdir(folder_path)  # double ensure the directory exists
     webbrowser.open(f'file://{folder_path}')
-    
-    
+        
 #define img to copy to retargeting_input
 def copy_image(img):
     return img
