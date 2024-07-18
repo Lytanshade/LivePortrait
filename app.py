@@ -95,10 +95,10 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
     gr.HTML(load_description(title_md))
     gr.Markdown(load_description("assets/gradio_description_upload.md"))
     with gr.Row():
-        with gr.Accordion(open=True, label="Source Portrait"):
+        with gr.Accordion(open=True, label="Source Portrait. Try the Image Examples below."):
             image_input = gr.Image(type="filepath")
             
-        with gr.Accordion(open=True, label="Driving Video"):
+        with gr.Accordion(open=True, label="Driving Video. Try the Driving Examples below."):
             video_input = gr.Video()
             
     with gr.Row():
