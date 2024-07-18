@@ -1,2 +1,0 @@
--r requirements_base.txt
-onnxruntime-silicon==1.16.3
