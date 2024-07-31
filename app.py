@@ -113,7 +113,7 @@ example_video_dir = "assets/examples/driving"
 #################### interface logic ####################
 
 # Define components first
-retargeting_source_scale = gr.Number(minimum=1.8, maximum=3.2, value=2.5, step=0.05, label="crop scale")
+retargeting_source_scale = gr.Slider(minimum=1.8, maximum=3.2, value=2.5, step=0.05, label="crop scale")
 eye_retargeting_slider = gr.Slider(minimum=0, maximum=0.8, step=0.01, label="target eyes-open ratio")
 lip_retargeting_slider = gr.Slider(minimum=0, maximum=0.8, step=0.01, label="target lip-open ratio")
 head_pitch_slider = gr.Slider(minimum=-15.0, maximum=15.0, value=0, step=1, label="relative pitch")
@@ -122,7 +122,7 @@ head_roll_slider = gr.Slider(minimum=-15.0, maximum=15.0, value=0, step=1, label
 retargeting_input_image = gr.Image(type="filepath")
 output_image = gr.Image(type="numpy")
 output_image_paste_back = gr.Image(type="numpy")
-output_video_i2v = gr.Video(autoplay=False)
+output_video_i2v = gr.Video(autoplay=False, height=640, width=640)
 output_video_concat_i2v = gr.Video(autoplay=False)
 
 
@@ -139,7 +139,7 @@ with gr.Blocks(theme=gr.themes.Soft(font=[gr.themes.GoogleFont("Plus Jakarta San
                 with gr.Tabs():
                     with gr.TabItem("🖼️ Source Image") as tab_image:
                         with gr.Accordion(open=True, label="Source Image"):
-                            source_image_input = gr.Image(type="filepath")
+                            source_image_input = gr.Image(type="filepath",height=640, width=640)
                         with gr.Accordion(open=False, label="Image Examples"):            
                             gr.Examples(
                                 examples=[
@@ -160,7 +160,7 @@ with gr.Blocks(theme=gr.themes.Soft(font=[gr.themes.GoogleFont("Plus Jakarta San
                             
                     with gr.TabItem("🎞️ Source Video") as tab_video:
                         with gr.Accordion(open=True, label="Source Video"):
-                            source_video_input = gr.Video()
+                            source_video_input = gr.Video(height=640, width=640)
                         with gr.Accordion(open=False, label="Video Examples"): 
                             gr.Examples(
                                 examples=[
@@ -185,7 +185,7 @@ with gr.Blocks(theme=gr.themes.Soft(font=[gr.themes.GoogleFont("Plus Jakarta San
             with gr.Tabs():
                 with gr.TabItem("🎞️ Driving Video") as tab_image:
                     with gr.Accordion(open=True, label="Driving Video."):
-                        driving_video_input = gr.Video()
+                        driving_video_input = gr.Video(height=640, width=640)
                     with gr.Accordion(open=False, label="Driving Examples"):
                         gr.Examples(
                             examples=[
@@ -227,7 +227,7 @@ with gr.Blocks(theme=gr.themes.Soft(font=[gr.themes.GoogleFont("Plus Jakarta San
 
     with gr.Row():
         with gr.Column():
-                with gr.Accordion(open=True, label="Cropping Options for Source Image or Video"):
+                with gr.Accordion(open=False, label="Cropping Options for Source Image or Video"):
                     with gr.Row():
                         flag_do_crop_input = gr.Checkbox(value=True, label="crop (source)")
                         scale = gr.Number(value=2.3, label="source crop scale", minimum=1.8, maximum=2.9, step=0.05)
@@ -261,9 +261,9 @@ with gr.Blocks(theme=gr.themes.Soft(font=[gr.themes.GoogleFont("Plus Jakarta San
 #                    flag_crop_driving_video_input = gr.Checkbox(value=False, label="crop (driving video)")
                     flag_video_editing_head_rotation = gr.Checkbox(value=False, label="relative head rotation (v2v)")
                     driving_smooth_observation_variance = gr.Number(value=1e-7, label="motion smooth strength (v2v)", minimum=1e-11, maximum=1e-2, step=1e-8)
-                    # flag_lip_zero = gr.Checkbox(value=True, label="lip-zero")    
-                    # flag_stitching =  gr.Checkbox(value=True, label="stitching(?)")     
-                    # flag_template_save =  gr.Checkbox(value=False, label="save templates")                   
+                    flag_normalize_lip = gr.Checkbox(value=True, label="lip-zero")    
+                    flag_stitching = gr.Checkbox(value=True, label="stitching(?)")     
+                    flag_template_save = gr.Checkbox(value=False, label="save templates")                   
 
              
 
@@ -277,7 +277,6 @@ with gr.Blocks(theme=gr.themes.Soft(font=[gr.themes.GoogleFont("Plus Jakarta San
 
         refresh_button.click(refresh_templates, outputs=template_dropdown)             
         open_folder_button = gr.Button("📁 output folder", variant="primary", size="sm")
-
         open_folder_button.click(fn=open_output_folder)
                 
 #gradio results               
@@ -496,6 +495,9 @@ with gr.Blocks(theme=gr.themes.Soft(font=[gr.themes.GoogleFont("Plus Jakarta San
             flag_remap_input,
             flag_crop_driving_video_input,
             flag_video_editing_head_rotation,
+            flag_normalize_lip,
+            flag_stitching,
+            #flag_template_save,
             scale,
             vx_ratio,
             vy_ratio,
@@ -513,6 +515,12 @@ with gr.Blocks(theme=gr.themes.Soft(font=[gr.themes.GoogleFont("Plus Jakarta San
         fn=gradio_pipeline.init_retargeting,
         inputs=[retargeting_source_scale, retargeting_input_image],
         outputs=[eye_retargeting_slider, lip_retargeting_slider]
+    )
+    
+    source_image_input.change(
+        fn=copy_image,
+        inputs=source_image_input,
+        outputs=retargeting_input_image
     )
 
 demo.launch(
